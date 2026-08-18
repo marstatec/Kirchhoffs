@@ -12,7 +12,10 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Beregning uden krav om et synligt jordpotentiale
 - Separat undervisningsfane med strømpile, knudepunktsligninger og maskeligninger
 - Læringsfaner for serieforbindelser, parallelforbindelser og klemspænding
+- VektorLab-design med samme mørke tema, emnemenu, topbjælke, kort og indtastningsfelter
+- Valg af 1–6 modstande/grene direkte i serie- og parallelfanerne
 - Dynamiske modstandslister, kredsløbstegninger og mellemregninger med enheder
+- Lyst/mørkt tema, tekstskalering og nulstilling af den aktive fane
 - Ortonormal ledningsføring med kun vandrette og lodrette segmenter
 - Komponentstrømme og spændingsfald med SI-præfikser
 - Ingen server, installation eller eksterne biblioteker
