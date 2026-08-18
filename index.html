@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kirchhoff Lab – DC-kredsløb</title>
+  <style>
+    :root{--bg:#f4f1e8;--paper:#fffdf7;--ink:#172326;--muted:#607074;--line:#ccd3cf;--blue:#126782;--orange:#e26d3f;--green:#2b7a61;--red:#b33a3a;--shadow:0 12px 32px #17232618}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+    button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-rows:auto 1fr}
+    header{display:flex;align-items:center;gap:18px;padding:16px 22px;background:var(--ink);color:white}header h1{font-size:18px;margin:0;letter-spacing:.01em}header p{margin:0;color:#d6dfdd;font-size:13px}.brand{display:flex;align-items:center;gap:10px;white-space:nowrap}.brand b{display:grid;place-items:center;width:34px;height:34px;border:2px solid #6cc2d6;border-radius:50%;color:#6cc2d6}
+    main{display:grid;grid-template-columns:220px minmax(420px,1fr) 270px;gap:14px;padding:14px;min-height:0}.panel,.workspace{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.panel{padding:16px}.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;margin:0 0 12px;color:var(--muted)}
+    .component-list{display:grid;gap:8px}.tool{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:white;color:var(--ink);text-align:left}.tool:hover{border-color:var(--blue);background:#edf7f8}.symbol{font-family:Georgia,serif;font-weight:700;font-size:20px;color:var(--blue);width:28px;text-align:center}
+    .guide{margin-top:18px;padding-top:15px;border-top:1px solid var(--line);font-size:12px;line-height:1.55;color:var(--muted)}.guide ol{padding-left:18px;margin:7px 0}.actions{display:grid;gap:8px;margin-top:16px}.primary,.secondary,.danger{border:0;border-radius:9px;padding:10px 12px;font-weight:700}.primary{background:var(--orange);color:white}.secondary{background:#e5ece9;color:var(--ink)}.danger{background:#f7e6e2;color:var(--red)}
+    .workspace{position:relative;overflow:hidden;min-height:650px}.workspace-top{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}#status{font-weight:700;color:var(--blue)}#canvas{display:block;width:100%;height:calc(100% - 46px);min-height:600px;touch-action:none;background-color:#fffdf7;background-image:radial-gradient(#b7c2be 1px,transparent 1px);background-size:20px 20px}
+    .wire{stroke:var(--blue);stroke-width:3;fill:none}.wire.selected{stroke:var(--orange);stroke-width:5}.component{cursor:grab}.component.selected .hitbox{stroke:var(--orange);stroke-width:2;fill:#e26d3f12}.hitbox{fill:transparent;stroke:transparent}.lead,.shape{stroke:var(--ink);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}.source{fill:var(--paper)}.terminal{fill:var(--paper);stroke:var(--blue);stroke-width:3;cursor:crosshair}.terminal.pending{fill:var(--orange);stroke:var(--orange)}.label{font-size:13px;font-weight:700;fill:var(--ink);text-anchor:middle;pointer-events:none}.value{font-size:11px;fill:var(--muted);text-anchor:middle;pointer-events:none}.node-label{font-size:11px;font-weight:700;fill:var(--green);paint-order:stroke;stroke:var(--paper);stroke-width:4px;stroke-linejoin:round}
+    .field{display:grid;gap:5px;margin:12px 0}.field label{font-size:12px;font-weight:700;color:var(--muted)}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;background:white;color:var(--ink)}.empty{font-size:13px;line-height:1.5;color:var(--muted)}.results{margin-top:18px;border-top:1px solid var(--line);padding-top:15px}.results h3{font-size:13px;margin:0 0 10px}.result-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid #e8ece9;font-size:12px}.result-row strong{font-variant-numeric:tabular-nums}.error{padding:10px;border-radius:8px;background:#f7e6e2;color:var(--red);font-size:12px;line-height:1.4}.ok{padding:10px;border-radius:8px;background:#e4f1eb;color:var(--green);font-size:12px;line-height:1.4}
+    @media(max-width:900px){main{grid-template-columns:180px 1fr}.inspector{grid-column:1/-1}.workspace{min-height:560px}#canvas{min-height:510px}}
+    @media(max-width:620px){header{align-items:flex-start;flex-direction:column;gap:6px}main{grid-template-columns:1fr}.component-list{grid-template-columns:1fr 1fr}.workspace{min-height:520px}.workspace-top{gap:8px}.panel{padding:12px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header><div class="brand"><b>K</b><h1>Kirchhoff Lab</h1></div><p>Byg, løs og undersøg lineære DC-kredsløb direkte i browseren.</p></header>
+  <main>
+    <aside class="panel">
+      <h2>Komponenter</h2>
+      <div class="component-list">
+        <button class="tool" data-add="resistor"><span class="symbol">R</span>Modstand</button>
+        <button class="tool" data-add="voltage"><span class="symbol">V</span>Spændingskilde</button>
+        <button class="tool" data-add="current"><span class="symbol">I</span>Strømkilde</button>
+        <button class="tool" data-add="ground"><span class="symbol">⏚</span>Jord</button>
+      </div>
+      <div class="guide"><strong>Sådan gør du</strong><ol><li>Tilføj og træk komponenter.</li><li>Klik på to blå terminaler for at forbinde dem.</li><li>Vælg en komponent og indstil værdien.</li><li>Tryk <em>Beregn kredsløb</em>.</li></ol>En ledning kan vælges og slettes. Alle værdier bruger SI-enheder.</div>
+      <div class="actions"><button id="solve" class="primary">Beregn kredsløb</button><button id="example" class="secondary">Indlæs eksempel</button><button id="clear" class="danger">Ryd lærred</button></div>
+    </aside>
+    <section class="workspace" aria-label="Kredsløbseditor">
+      <div class="workspace-top"><span>Klik terminal → klik terminal</span><span id="status">Klar</span></div>
+      <svg id="canvas" role="img" aria-label="Interaktivt DC-kredsløb"></svg>
+    </section>
+    <aside class="panel inspector">
+      <h2>Egenskaber</h2>
+      <div id="properties" class="empty">Vælg en komponent for at ændre navn, værdi eller retning.</div>
+      <div class="results"><h3>Resultater</h3><div id="results" class="empty">Resultater vises efter beregning.</div></div>
+    </aside>
+  </main>
+</div>
+<script>
+(() => {
+  const svg=document.querySelector('#canvas'), props=document.querySelector('#properties'), results=document.querySelector('#results'), status=document.querySelector('#status');
+  let components=[], wires=[], selected=null, pending=null, dragging=null, ids={resistor:0,voltage:0,current:0,ground:0};
+  const defaults={resistor:1000,voltage:10,current:.01};
+  const names={resistor:'R',voltage:'V',current:'I',ground:'GND'};
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt=v=>{if(!Number.isFinite(v))return '—';let a=Math.abs(v);if(a>=1e6)return (v/1e6).toPrecision(4)+' M';if(a>=1e3)return (v/1e3).toPrecision(4)+' k';if(a>0&&a<1e-3)return (v*1e6).toPrecision(4)+' µ';if(a>0&&a<1)return (v*1e3).toPrecision(4)+' m';return v.toPrecision(4)+' '};
+  function add(type,x=170+components.length*22,y=120+components.length*38){ids[type]++;components.push({id:type[0]+Date.now()+ids[type],type,name:type==='ground'?'GND':names[type]+ids[type],value:defaults[type]||0,x,y,rot:0});render();}
+  function terminals(c){if(c.type==='ground')return[{x:c.x,y:c.y-25}];const vertical=c.rot%180!==0;return vertical?[{x:c.x,y:c.y-55},{x:c.x,y:c.y+55}]:[{x:c.x-65,y:c.y},{x:c.x+65,y:c.y}];}
+  const termKey=(id,i)=>id+':'+i;
+  function compMarkup(c){const t=terminals(c), sel=selected?.kind==='component'&&selected.id===c.id?' selected':'';let shape='';
+    if(c.type==='resistor')shape='<path class="lead" d="M-65 0H-38M38 0H65"/><path class="shape" d="M-38 0l8-14 12 28 12-28 12 28 12-28 12 28 8-14"/>';
+    if(c.type==='voltage')shape='<path class="lead" d="M-65 0H-26M26 0H65"/><circle class="shape source" r="26"/><path class="shape" d="M-8-8H8M0-16V0M-8 11H8"/>';
+    if(c.type==='current')shape='<path class="lead" d="M-65 0H-26M26 0H65"/><circle class="shape source" r="26"/><path class="shape" d="M-10 0H10M4-7l7 7-7 7"/>';
+    if(c.type==='ground')shape='<path class="lead" d="M0-25V0M-20 0H20M-14 7H14M-7 14H7"/>';
+    const rot=c.type==='ground'?0:c.rot;return `<g class="component${sel}" data-id="${c.id}" transform="translate(${c.x} ${c.y}) rotate(${rot})"><rect class="hitbox" x="-72" y="-42" width="144" height="84" rx="8"/>${shape}<text class="label" y="-27" transform="rotate(${-rot})">${esc(c.name)}</text>${c.type!=='ground'?`<text class="value" y="42" transform="rotate(${-rot})">${esc(valueText(c))}</text>`:''}</g>`+t.map((p,i)=>`<circle class="terminal${pending===termKey(c.id,i)?' pending':''}" data-terminal="${termKey(c.id,i)}" cx="${p.x}" cy="${p.y}" r="6"/>`).join('');}
+  function valueText(c){return c.type==='resistor'?fmt(c.value)+'Ω':c.type==='voltage'?fmt(c.value)+'V':fmt(c.value)+'A';}
+  function wirePath(w){const [a,b]=w.ends.map(getTerminal);if(!a||!b)return'';const mx=(a.x+b.x)/2;return `M${a.x} ${a.y} H${mx} V${b.y} H${b.x}`;}
+  function getTerminal(key){const [id,i]=key.split(':');const c=components.find(x=>x.id===id);return c?terminals(c)[+i]:null;}
+  function render(nodeData){svg.innerHTML=wires.map((w,i)=>`<path class="wire${selected?.kind==='wire'&&selected.index===i?' selected':''}" data-wire="${i}" d="${wirePath(w)}"/>`).join('')+components.map(compMarkup).join('')+(nodeData||'');bindCanvas();renderProps();}
+  function bindCanvas(){svg.querySelectorAll('.terminal').forEach(el=>el.onclick=e=>{e.stopPropagation();const k=el.dataset.terminal;if(pending&&pending!==k){if(!wires.some(w=>w.ends.includes(pending)&&w.ends.includes(k)))wires.push({ends:[pending,k]});pending=null;status.textContent='Forbindelse oprettet';}else pending=pending===k?null:k;selected=null;render();});
+    svg.querySelectorAll('.component').forEach(el=>{el.onpointerdown=e=>{if(e.target.closest('.terminal'))return;const c=components.find(x=>x.id===el.dataset.id),r=svg.getBoundingClientRect();selected={kind:'component',id:c.id};dragging={c,dx:e.clientX-r.left-c.x,dy:e.clientY-r.top-c.y};svg.setPointerCapture(e.pointerId);render();};});
+    svg.querySelectorAll('.wire').forEach(el=>el.onclick=e=>{e.stopPropagation();selected={kind:'wire',index:+el.dataset.wire};render();});}
+  svg.onpointermove=e=>{if(!dragging)return;const r=svg.getBoundingClientRect();dragging.c.x=Math.round((e.clientX-r.left-dragging.dx)/10)*10;dragging.c.y=Math.round((e.clientY-r.top-dragging.dy)/10)*10;render();};svg.onpointerup=()=>dragging=null;svg.onclick=()=>{selected=null;pending=null;render();};
+  function renderProps(){if(!selected){props.className='empty';props.innerHTML='Vælg en komponent for at ændre navn, værdi eller retning.';return}props.className='';if(selected.kind==='wire'){props.innerHTML='<div class="empty">Valgt ledning</div><button id="delete" class="danger" style="width:100%;margin-top:12px">Slet ledning</button>';document.querySelector('#delete').onclick=()=>{wires.splice(selected.index,1);selected=null;render()};return}const c=components.find(x=>x.id===selected.id);if(!c)return;
+    props.innerHTML=`<div class="field"><label for="pname">Navn</label><input id="pname" value="${esc(c.name)}"></div>${c.type!=='ground'?`<div class="field"><label for="pvalue">Værdi (${c.type==='resistor'?'Ω':c.type==='voltage'?'V':'A'})</label><input id="pvalue" type="number" step="any" value="${c.value}"></div><div class="field"><label for="prot">Retning</label><select id="prot"><option value="0" ${c.rot===0?'selected':''}>Vandret</option><option value="90" ${c.rot===90?'selected':''}>Lodret</option></select></div>`:''}<button id="delete" class="danger" style="width:100%;margin-top:8px">Slet komponent</button>`;
+    document.querySelector('#pname').oninput=e=>{c.name=e.target.value;render()};if(c.type!=='ground'){document.querySelector('#pvalue').onchange=e=>{c.value=Number(e.target.value);render()};document.querySelector('#prot').onchange=e=>{c.rot=+e.target.value;render()}}document.querySelector('#delete').onclick=()=>{components=components.filter(x=>x.id!==c.id);wires=wires.filter(w=>!w.ends.some(k=>k.startsWith(c.id+':')));selected=null;render()};}
+  document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>add(b.dataset.add));document.addEventListener('keydown',e=>{if(e.key==='Delete'&&selected){document.querySelector('#delete')?.click()}if(e.key==='Escape'){pending=null;selected=null;render()}});
+  function solve(){try{const termList=[];components.forEach(c=>terminals(c).forEach((_,i)=>termList.push(termKey(c.id,i))));const parent=Object.fromEntries(termList.map(k=>[k,k]));const find=x=>parent[x]===x?x:(parent[x]=find(parent[x]));const union=(a,b)=>{a=find(a);b=find(b);if(a!==b)parent[b]=a};wires.forEach(w=>union(...w.ends));const grounds=components.filter(c=>c.type==='ground');if(!grounds.length)throw Error('Tilføj mindst ét jordpunkt.');grounds.forEach(g=>union(termKey(grounds[0].id,0),termKey(g.id,0)));const ground=find(termKey(grounds[0].id,0));const roots=[...new Set(termList.map(find))].filter(r=>r!==ground);const ni=new Map(roots.map((r,i)=>[r,i]));const vs=components.filter(c=>c.type==='voltage'), n=roots.length, m=vs.length, size=n+m;if(!size)throw Error('Kredsløbet indeholder ingen ukendte.');const A=Array.from({length:size},()=>Array(size).fill(0)),z=Array(size).fill(0);const idx=k=>{const r=find(k);return r===ground?-1:ni.get(r)};
+      components.forEach(c=>{if(c.type==='ground')return;const a=idx(termKey(c.id,0)),b=idx(termKey(c.id,1));if(a===b&&c.type==='voltage'&&Math.abs(c.value)>1e-12)throw Error(`${c.name} er kortsluttet.`);if(c.type==='resistor'){if(!(c.value>0))throw Error(`${c.name} skal være større end 0 Ω.`);const g=1/c.value;if(a>=0)A[a][a]+=g;if(b>=0)A[b][b]+=g;if(a>=0&&b>=0){A[a][b]-=g;A[b][a]-=g}}if(c.type==='current'){if(a>=0)z[a]-=c.value;if(b>=0)z[b]+=c.value}if(c.type==='voltage'){const k=n+vs.indexOf(c);if(a>=0){A[a][k]++;A[k][a]++}if(b>=0){A[b][k]--;A[k][b]--}z[k]=c.value}});const x=gauss(A,z);const volt=k=>{const i=idx(k);return i<0?0:x[i]};let html='<div class="ok">Løsningen opfylder KCL og KVL.</div>';roots.forEach((r,i)=>html+=`<div class="result-row"><span>Node N${i+1}</span><strong>${fmt(x[i])}V</strong></div>`);components.filter(c=>c.type!=='ground').forEach(c=>{const va=volt(termKey(c.id,0)),vb=volt(termKey(c.id,1));let cur=c.type==='resistor'?(va-vb)/c.value:c.type==='current'?c.value:x[n+vs.indexOf(c)];html+=`<div class="result-row"><span>${esc(c.name)}: I₁→₂</span><strong>${fmt(cur)}A</strong></div>`});results.innerHTML=html;status.textContent='Beregnet';const labels=roots.map((r,i)=>{const key=termList.find(k=>find(k)===r),p=getTerminal(key);return `<text class="node-label" x="${p.x+9}" y="${p.y-9}">N${i+1}: ${fmt(x[i])}V</text>`}).join('');render(labels);
+    }catch(err){results.innerHTML=`<div class="error">${esc(err.message)}</div>`;status.textContent='Kan ikke løses';}}
+  function gauss(A,b){const n=b.length,M=A.map((r,i)=>[...r,b[i]]);for(let k=0;k<n;k++){let p=k;for(let i=k+1;i<n;i++)if(Math.abs(M[i][k])>Math.abs(M[p][k]))p=i;if(Math.abs(M[p][k])<1e-12)throw Error('Kredsløbet er flydende, underbestemt eller indeholder en modstrid. Kontrollér forbindelserne.');[M[k],M[p]]=[M[p],M[k]];for(let i=k+1;i<n;i++){const f=M[i][k]/M[k][k];for(let j=k;j<=n;j++)M[i][j]-=f*M[k][j]}}const x=Array(n);for(let i=n-1;i>=0;i--){let s=M[i][n];for(let j=i+1;j<n;j++)s-=M[i][j]*x[j];x[i]=s/M[i][i]}return x}
+  document.querySelector('#solve').onclick=solve;document.querySelector('#clear').onclick=()=>{if(confirm('Vil du rydde hele kredsløbet?')){components=[];wires=[];selected=pending=null;results.innerHTML='Resultater vises efter beregning.';status.textContent='Klar';render()}};
+  document.querySelector('#example').onclick=()=>{components=[];wires=[];ids={resistor:0,voltage:0,current:0,ground:0};add('voltage',190,300);add('resistor',390,180);add('resistor',390,420);add('ground',590,350);components[0].name='V1';components[0].value=12;components[1].name='R1';components[1].value=1000;components[2].name='R2';components[2].value=2000;const v=components[0],r1=components[1],r2=components[2],g=components[3];wires=[{ends:[termKey(v.id,0),termKey(r1.id,0)]},{ends:[termKey(r1.id,1),termKey(r2.id,0)]},{ends:[termKey(r2.id,1),termKey(g.id,0)]},{ends:[termKey(v.id,1),termKey(g.id,0)]}];selected=null;results.innerHTML='Tryk “Beregn kredsløb” for at løse eksemplet.';status.textContent='Eksempel indlæst';render()};
+  document.querySelector('#example').click();
+})();
+</script>
+</body>
+</html>
+
