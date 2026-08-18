@@ -9,7 +9,9 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Frit redigerbare ledningsføringer med flytbare knækpunkter
 - Redigering af navn, værdi og orientering
 - Modified Nodal Analysis (MNA) og Gauss-elimination direkte i browseren
-- Nodespændinger og komponentstrømme med SI-præfikser
+- Beregning uden krav om et synligt jordpotentiale
+- Separat undervisningsfane med strømpile, knudepunktsligninger og maskeligninger
+- Komponentstrømme og spændingsfald med SI-præfikser
 - Ingen server, installation eller eksterne biblioteker
 
 ## Kør lokalt
