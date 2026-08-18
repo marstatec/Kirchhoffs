@@ -11,6 +11,8 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Modified Nodal Analysis (MNA) og Gauss-elimination direkte i browseren
 - Beregning uden krav om et synligt jordpotentiale
 - Separat undervisningsfane med strømpile, knudepunktsligninger og maskeligninger
+- Ét fælles kredsløbsdiagram for undervisningstrin 1–3
+- Grenstrømme nummereres pr. kredsgren — ikke pr. komponent
 - Læringsfaner for serieforbindelser, parallelforbindelser og klemspænding
 - VektorLab-design med samme mørke tema, emnemenu, topbjælke, kort og indtastningsfelter
 - Valg af 1–6 modstande/grene direkte i serie- og parallelfanerne
