@@ -6,6 +6,7 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 
 - Modstande, ideelle spændingskilder, ideelle strømkilder og jord
 - Træk-og-slip-editor med klikbare terminaler
+- Frit redigerbare ledningsføringer med flytbare knækpunkter
 - Redigering af navn, værdi og orientering
 - Modified Nodal Analysis (MNA) og Gauss-elimination direkte i browseren
 - Nodespændinger og komponentstrømme med SI-præfikser
