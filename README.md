@@ -15,6 +15,7 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Grenstrømme nummereres pr. kredsgren — ikke pr. komponent
 - Læringsfaner for serieforbindelser, parallelforbindelser og klemspænding
 - VektorLab-design med samme mørke tema, emnemenu, topbjælke, kort og indtastningsfelter
+- Mobil emnemenu som i VektorLab: hamburgerknap, indskydeligt sidepanel og lukning via tilbageknap eller baggrund
 - Valg af 1–6 modstande/grene direkte i serie- og parallelfanerne
 - Dynamiske modstandslister, kredsløbstegninger og mellemregninger med enheder
 - Lyst/mørkt tema, tekstskalering og nulstilling af den aktive fane
