@@ -4,7 +4,7 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 
 ## Funktioner
 
-- Modstande og spændingskilder med redigerbar indre modstand
+- Modstande og spændingskilder med redigerbar indre modstand og vendbar polaritet
 - IEC-symboler med rektangulære modstande og batteriplader for spændingskilder
 - Træk-og-slip-editor med klikbare terminaler
 - Frit redigerbare ledningsføringer med flytbare knækpunkter
@@ -13,6 +13,7 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Beregning uden krav om et synligt jordpotentiale
 - Separat undervisningsfane med strømpile, knudepunktsligninger og maskeligninger
 - Ét fælles kredsløbsdiagram for undervisningstrin 1–3
+- Strøm- og maskepile vises konsekvent med uret: mod højre på vandrette grene og nedad på lodrette grene
 - Grenstrømme nummereres pr. kredsgren — ikke pr. komponent
 - Automatisk skalering samt tydelige maskepile placeret centralt i de enkelte masker
 - Indbygget øvelseskredsløb med spændingskilderne E1–E4, modstandene R1, R2, R3, R5 og R6 samt knudepunkterne a, b og c
