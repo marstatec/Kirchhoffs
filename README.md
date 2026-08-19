@@ -13,7 +13,7 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Separat undervisningsfane med strømpile, knudepunktsligninger og maskeligninger
 - Ét fælles kredsløbsdiagram for undervisningstrin 1–3
 - Grenstrømme nummereres pr. kredsgren — ikke pr. komponent
-- Automatisk skalering samt kompakte maskepile placeret inde i maskerne
+- Automatisk skalering samt kollisionsfri maskepile placeret i de største frie områder i maskerne
 - Indbygget øvelseskredsløb med spændingskilderne E1–E4, modstandene R1, R2, R3, R5 og R6 samt knudepunkterne a, b og c
 - Læringsfaner for serieforbindelser, parallelforbindelser og klemspænding
 - VektorLab-design med samme mørke tema, emnemenu, topbjælke, kort og indtastningsfelter
