@@ -1,4 +1,4 @@
-/* Independent RC/RL lessons. The free-form Kirchhoff solver remains stationary DC. */
+/* RC charging/discharging lesson. The AC coil lesson lives in coil.js. */
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -10,8 +10,7 @@
     return `${format(n / factor)} ${prefix}${unit}`;
   };
   const specs = {
-    capacitor: {number:'05', title:'Kondensatoren lades op — strømmen aftager', subtitle:'Følg spænding, strøm og energi i en RC-kreds. Kondensatorspændingen kan ikke springe: opladningen tager tid.', symbol:'C', name:'Kapacitans C (µF)', value:1000, resistance:1000, up:'Opladning', down:'Afladning'},
-    inductor: {number:'06', title:'Spolen modvirker ændringer i strømmen', subtitle:'Følg strømmen i en RL-kreds, og se den inducerede elektromotoriske kraft. Spolestrømmen kan ikke springe: magnetfeltet opbygges og nedbrydes over tid.', symbol:'L', name:'Induktans L (mH)', value:500, resistance:20, up:'Indkobling', down:'Udkobling'}
+    capacitor: {number:'05', title:'Kondensatoren lades op — strømmen aftager', subtitle:'Følg spænding, strøm og energi i en RC-kreds. Kondensatorspændingen kan ikke springe: opladningen tager tid.', symbol:'C', name:'Kapacitans C (µF)', value:1000, resistance:1000, up:'Opladning', down:'Afladning'}
   };
   const states = {};
   function sample(kind, U, R, component, mode, k) {

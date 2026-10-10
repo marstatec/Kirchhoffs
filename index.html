@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KirchhoffLab – DC-kredsløb</title>
-  <link rel="stylesheet" href="transients.css?v=rc-rl-1">
+  <title>KirchhoffLab – Elektroteknik</title>
+  <link rel="stylesheet" href="transients.css?v=coil-ac-1">
   <style>
     :root{--bg:#f4f1e8;--paper:#fffdf7;--ink:#172326;--muted:#607074;--line:#ccd3cf;--blue:#126782;--orange:#e26d3f;--green:#2b7a61;--red:#b33a3a;--shadow:0 12px 32px #17232618}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}[hidden]{display:none!important}
@@ -88,7 +88,8 @@
     <div class="learn-grid"><article class="learn-card"><h3>Inddata</h3><div class="field"><label for="term-e">Elektromotorisk kraft E (V)</label><input id="term-e" type="number" step="any" value="12.4"></div><div class="field"><label for="term-r">Indre modstand rᵢ (Ω)</label><input id="term-r" type="number" step="any" value="0.2"></div><div class="field"><label for="term-i">Belastningsstrøm I (A)</label><input id="term-i" type="number" step="any" value="6"></div></article><article class="learn-card"><h3>Spændingskilden under belastning</h3><svg id="terminal-svg" class="learn-svg" viewBox="0 0 620 260" role="img" aria-label="Spændingskilde med indre modstand og belastning"></svg><div id="terminal-metrics" class="metric-strip"></div></article><article class="learn-card"><h3>Regneregler</h3><div class="formula-list"><div class="formula-box"><small>Klemspænding under belastning</small>U<sub>kl</sub> = E − I · r<sub>i</sub></div><div class="formula-box"><small>Tomgang, hvor I = 0 A</small>U<sub>kl</sub> = E</div><div class="formula-box"><small>Find indre modstand</small>r<sub>i</sub> = (E − U<sub>kl</sub>) / I</div></div></article><article class="learn-card"><h3>Indsæt tallene</h3><div id="terminal-working" class="working"></div></article></div>
   </section>
 </div>
-<script src="transients.js?v=rc-rl-1"></script>
+<script src="transients.js?v=coil-ac-1"></script>
+<script src="coil.js?v=coil-ac-1"></script>
 <script>
 (() => {
   const svg=document.querySelector('#canvas'), props=document.querySelector('#properties'), results=document.querySelector('#results'), status=document.querySelector('#status');
@@ -96,9 +97,9 @@
   let components=[], wires=[], nodeAnnotations=[], selected=null, pending=null, dragging=null, ids={resistor:0,voltage:0,current:0,ground:0};
   const defaults={resistor:1000,voltage:10,current:.01};
   const names={resistor:'R',voltage:'V',current:'I',ground:'GND'};
-  function showView(name){document.querySelectorAll('.topic-page').forEach(v=>v.hidden=true);document.querySelector('#build-view').hidden=name!=='build';document.querySelector('#calc-view').hidden=name!=='calc';document.querySelector('.tabbar').hidden=false;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===name))}
+  function showView(name){document.querySelector('header h1').textContent='Jævnstrøm';document.querySelectorAll('.topic-page').forEach(v=>v.hidden=true);document.querySelector('#build-view').hidden=name!=='build';document.querySelector('#calc-view').hidden=name!=='calc';document.querySelector('.tabbar').hidden=false;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===name))}
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
-  function showModule(name){setNavigation(false);if(location.hash!==`#${name}`)history.replaceState(null,'',`#${name}`);document.querySelectorAll('.topic-button').forEach(b=>b.classList.toggle('active',b.dataset.module===name));if(name==='kirchhoff'){showView('build');return}document.querySelector('#build-view').hidden=true;document.querySelector('#calc-view').hidden=true;document.querySelector('.tabbar').hidden=true;document.querySelectorAll('.topic-page').forEach(v=>v.hidden=v.id!==`${name}-view`)}
+  function showModule(name){document.querySelector('header h1').textContent=name==='inductor'?'Vekselstrøm':'Jævnstrøm';setNavigation(false);if(location.hash!==`#${name}`)history.replaceState(null,'',`#${name}`);document.querySelectorAll('.topic-button').forEach(b=>b.classList.toggle('active',b.dataset.module===name));if(name==='kirchhoff'){showView('build');return}document.querySelector('#build-view').hidden=true;document.querySelector('#calc-view').hidden=true;document.querySelector('.tabbar').hidden=true;document.querySelectorAll('.topic-page').forEach(v=>v.hidden=v.id!==`${name}-view`)}
   document.querySelectorAll('[data-module]').forEach(b=>b.onclick=()=>showModule(b.dataset.module));
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const fmt=v=>{if(!Number.isFinite(v))return '—';let a=Math.abs(v);if(a>=1e6)return (v/1e6).toPrecision(4)+' M';if(a>=1e3)return (v/1e3).toPrecision(4)+' k';if(a>0&&a<1e-3)return (v*1e6).toPrecision(4)+' µ';if(a>0&&a<1)return (v*1e3).toPrecision(4)+' m';return v.toPrecision(4)+' '};
