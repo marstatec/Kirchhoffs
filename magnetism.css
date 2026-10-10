@@ -1,0 +1,10 @@
+.mag-tabs,.mag-actions,.mag-symbols{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.mag-tabs button{border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);padding:11px 14px}.mag-tabs button[aria-pressed=true]{border-color:var(--blue);box-shadow:inset 0 -3px var(--blue)}
+.mag-symbols{font-size:12px;color:var(--muted);gap:14px 24px;padding:14px 0;border-bottom:1px solid var(--line)}.mag-symbols b{font-size:20px}.mag-blue{color:var(--blue)}.mag-orange{color:var(--orange)}
+.magnet-page .learn-card{min-width:0}.magnet-page input[type=range]{accent-color:var(--blue);padding:0;min-height:32px;width:100%}.magnet-page label output{float:right;color:var(--blue);font-weight:600}.magnet-page .lesson-note{font-size:14px;line-height:1.7}.magnet-page .working{margin:15px 0;overflow-wrap:anywhere}.magnet-page .working strong{color:var(--blue)}
+.mag-figure{display:block;width:100%;height:auto;border-radius:12px;background:var(--bg);margin:14px 0}.mag-figure text{font:13px ui-monospace,monospace}.mag-figure path,.mag-figure circle,.mag-figure ellipse{stroke-linecap:round;stroke-linejoin:round}
+.mag-rule-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.mag-rule-layout li{padding:6px 0;line-height:1.7}.mag-rule-layout ol{padding-left:22px}.magnet-page #mag-inductor-inputs{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.magnet-page [data-mag-panel=materials] .full .mag-figure{max-width:720px;margin:auto}
+#mag-permanent-card{margin-top:20px}#mag-permanent-card .mag-figure{max-width:720px;margin:auto}
+@media(max-width:1000px){.mag-rule-layout{grid-template-columns:1fr}}
+@media(max-width:620px){.mag-tabs button{flex:1 1 42%;padding:11px 8px}.magnet-page .learn-card{padding:15px}.magnet-page label output{float:none;margin-left:8px}.mag-figure text{font-size:18px}#mag-rule-svg text{font-size:22px}}
+@media print{.mag-tabs,.mag-actions{display:none}.magnet-page .learn-card{break-inside:avoid}}
