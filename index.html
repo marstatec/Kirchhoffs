@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KirchhoffLab – Elektroteknik</title>
   <link rel="stylesheet" href="transients.css?v=coil-ac-1">
+  <link rel="stylesheet" href="measurement.css?v=measurement-1">
   <style>
     :root{--bg:#f4f1e8;--paper:#fffdf7;--ink:#172326;--muted:#607074;--line:#ccd3cf;--blue:#126782;--orange:#e26d3f;--green:#2b7a61;--red:#b33a3a;--shadow:0 12px 32px #17232618}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}[hidden]{display:none!important}
@@ -47,6 +48,7 @@
       <button class="topic-button" data-module="terminal"><span class="topic-icon">U</span><span>Klemspænding</span><span class="topic-no">4</span></button>
       <button class="topic-button" data-module="capacitor"><span class="topic-icon">C</span><span>Kondensator</span><span class="topic-no">5</span></button>
       <button class="topic-button" data-module="inductor"><span class="topic-icon">L</span><span>Spole &amp; mod-EMK</span><span class="topic-no">6</span></button>
+      <button class="topic-button" data-module="measurement"><span class="topic-icon">V/A</span><span>Måleteknik</span><span class="topic-no">7</span></button>
     </nav>
   </aside>
   <button id="nav-overlay" class="nav-overlay" aria-label="Luk emnemenu"></button>
@@ -90,6 +92,7 @@
 </div>
 <script src="transients.js?v=coil-ac-1"></script>
 <script src="coil.js?v=coil-angle-2"></script>
+<script src="measurement.js?v=measurement-1"></script>
 <script>
 (() => {
   const svg=document.querySelector('#canvas'), props=document.querySelector('#properties'), results=document.querySelector('#results'), status=document.querySelector('#status');
@@ -99,7 +102,7 @@
   const names={resistor:'R',voltage:'V',current:'I',ground:'GND'};
   function showView(name){document.querySelector('header h1').textContent='Jævnstrøm';document.querySelectorAll('.topic-page').forEach(v=>v.hidden=true);document.querySelector('#build-view').hidden=name!=='build';document.querySelector('#calc-view').hidden=name!=='calc';document.querySelector('.tabbar').hidden=false;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===name))}
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
-  function showModule(name){document.querySelector('header h1').textContent=name==='inductor'?'Vekselstrøm':'Jævnstrøm';setNavigation(false);if(location.hash!==`#${name}`)history.replaceState(null,'',`#${name}`);document.querySelectorAll('.topic-button').forEach(b=>b.classList.toggle('active',b.dataset.module===name));if(name==='kirchhoff'){showView('build');return}document.querySelector('#build-view').hidden=true;document.querySelector('#calc-view').hidden=true;document.querySelector('.tabbar').hidden=true;document.querySelectorAll('.topic-page').forEach(v=>v.hidden=v.id!==`${name}-view`)}
+  function showModule(name){document.querySelector('header h1').textContent=name==='measurement'?'Måleteknik':name==='inductor'?'Vekselstrøm':'Jævnstrøm';setNavigation(false);if(location.hash!==`#${name}`)history.replaceState(null,'',`#${name}`);document.querySelectorAll('.topic-button').forEach(b=>b.classList.toggle('active',b.dataset.module===name));if(name==='kirchhoff'){showView('build');return}document.querySelector('#build-view').hidden=true;document.querySelector('#calc-view').hidden=true;document.querySelector('.tabbar').hidden=true;document.querySelectorAll('.topic-page').forEach(v=>v.hidden=v.id!==`${name}-view`)}
   document.querySelectorAll('[data-module]').forEach(b=>b.onclick=()=>showModule(b.dataset.module));
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const fmt=v=>{if(!Number.isFinite(v))return '—';let a=Math.abs(v);if(a>=1e6)return (v/1e6).toPrecision(4)+' M';if(a>=1e3)return (v/1e3).toPrecision(4)+' k';if(a>0&&a<1e-3)return (v*1e6).toPrecision(4)+' µ';if(a>0&&a<1)return (v*1e3).toPrecision(4)+' m';return v.toPrecision(4)+' '};
@@ -181,8 +184,8 @@
   document.querySelector('#solve').onclick=solve;document.querySelector('#clear').onclick=()=>{if(confirm('Vil du rydde hele kredsløbet?')){components=[];wires=[];nodeAnnotations=[];selected=pending=null;results.innerHTML='Resultater vises efter beregning.';status.textContent='Klar';render()}};
   document.querySelector('#example').onclick=()=>{components=[];wires=[];nodeAnnotations=[];ids={resistor:0,voltage:0,current:0,ground:0};add('voltage',110,220);add('resistor',110,455);add('resistor',290,115);add('voltage',290,240);add('voltage',290,400);add('resistor',290,525);add('resistor',470,220);add('resistor',470,455);add('voltage',380,320);components.forEach(c=>c.value=c.type==='resistor'?1000:10);components[0].name='E1';components[0].rot=90;components[1].name='R1';components[1].rot=90;components[2].name='R2';components[2].rot=90;components[3].name='E2';components[3].value=6;components[3].rot=90;components[4].name='E3';components[4].value=4;components[4].rot=90;components[5].name='R3';components[5].rot=90;components[6].name='R5';components[6].rot=90;components[7].name='R6';components[7].rot=90;components[8].name='E4';components[8].value=3;const [e1,r1,r2,e2,e3,r3,r5,r6,e4]=components;const link=(a,ai,b,bi,points=[])=>({ends:[termKey(a.id,ai),termKey(b.id,bi)],points});wires=[link(e1,0,r2,0,[{x:110,y:60},{x:290,y:60}]),link(r2,0,r5,0,[{x:470,y:60},{x:470,y:165}]),link(e1,1,r1,0,[]),link(r1,1,r3,1,[{x:110,y:590},{x:290,y:590}]),link(r3,1,r6,1,[{x:470,y:590},{x:470,y:510}]),link(r2,1,e2,0,[]),link(e2,1,e3,0,[]),link(e2,1,e4,0,[{x:290,y:320},{x:315,y:320}]),link(e3,1,r3,0,[]),link(r5,1,e4,1,[{x:470,y:320},{x:445,y:320}]),link(e4,1,r6,0,[{x:470,y:320},{x:470,y:400}])];selected=null;results.innerHTML='Øvelseskredsløbet med E1–E4 og R1, R2, R3, R5 og R6 er indlæst. Tryk “Beregn kredsløb”.';document.querySelector('#calculation').className='lesson';document.querySelector('#calculation').innerHTML='<div class="empty">Tryk “Beregn kredsløb” for at opbygge udregningen trin for trin.</div>';status.textContent='Øvelseskredsløb indlæst';showView('build');render()};
   document.querySelector('#example').click();
-  if(location.hash==='#calc')solve();else if(['series','parallel','terminal','capacitor','inductor'].includes(location.hash.slice(1)))showModule(location.hash.slice(1));
-  window.addEventListener('hashchange',()=>{const name=location.hash.slice(1);if(name==='calc')solve();else if(['kirchhoff','series','parallel','terminal','capacitor','inductor'].includes(name))showModule(name);});
+  if(location.hash==='#calc')solve();else if(['series','parallel','terminal','capacitor','inductor','measurement'].includes(location.hash.slice(1)))showModule(location.hash.slice(1));
+  window.addEventListener('hashchange',()=>{const name=location.hash.slice(1);if(name==='calc')solve();else if(['kirchhoff','series','parallel','terminal','capacitor','inductor','measurement'].includes(name))showModule(name);});
 })();
 </script>
 </body>

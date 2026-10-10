@@ -18,6 +18,8 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Automatisk skalering samt tydelige maskepile placeret centralt i de enkelte masker
 - Indbygget øvelseskredsløb med spændingskilderne E1–E4, modstandene R1, R2, R3, R5 og R6 samt knudepunkterne a, b og c
 - Læringsfaner for serieforbindelser, parallelforbindelser og klemspænding
+- Måleteknik med klikbare målepunkter, spænding/strøm/modstand, manuelt måleområde, strømindgange og simulerede sikringsfejl
+- Instrumentlære med analog klasse 1,5, digital procent-plus-cifre-nøjagtighed og forklaring af instrumentmærkning
 - Kondensatorfane med RC-opladning/afladning, tidskonstant, ladning, energi og interaktive tidskurver
 - Beskrivende spolefane om selvinduktion og modelektromotorisk kraft ved vekselstrøm, med reaktans, impedans og sammenligning af strøm med/uden selvinduktion
 - Tidsskyder, afspilning og mellemregninger fra 0 til 5 tidskonstanter i kondensatorfanen
@@ -43,7 +45,7 @@ python -m http.server 8000
 ## Publicér med GitHub Pages
 
 1. Opret et nyt GitHub-repository.
-2. Upload `index.html`, `transients.js`, `coil.js`, `transients.css` og `README.md` til repository-roden.
+2. Upload `index.html`, `transients.js`, `coil.js`, `transients.css`, `measurement.js`, `measurement.css` og `README.md` til repository-roden.
 3. Gå til **Settings → Pages**.
 4. Vælg **Deploy from a branch**, branch `main` og mappen `/ (root)`.
 5. Gem. GitHub viser derefter sidens offentlige adresse.
