@@ -8,3 +8,4 @@
 @media(max-width:1000px){.mag-rule-layout{grid-template-columns:1fr}}
 @media(max-width:620px){.mag-tabs button{flex:1 1 42%;padding:11px 8px}.magnet-page .learn-card{padding:15px}.magnet-page label output{float:none;margin-left:8px}.mag-figure text{font-size:18px}#mag-rule-svg text{font-size:22px}}
 @media print{.mag-tabs,.mag-actions{display:none}.magnet-page .learn-card{break-inside:avoid}}
+.mag-source-figure{margin:0;padding:18px;border-radius:12px;background:#fff;color:#28343c;text-align:center}.mag-source-figure img{display:block;max-width:100%;width:auto;max-height:360px;margin:auto}.mag-source-figure figcaption{font-size:12px;line-height:1.5;margin-top:14px}.mag-rule-original{font-size:18px;line-height:1.8}.mag-rule-subtitle{font-style:italic;color:var(--muted);line-height:1.6}.mag-rule-demo{border-top:1px solid var(--line);margin-top:24px;padding-top:24px}.mag-rule-demo .mag-figure{max-width:600px;margin:14px auto}#mag-rule-controls{margin-bottom:18px}
