@@ -24,9 +24,11 @@ En browserbaseret simulator til undervisning i lineære DC-kredsløb. Studerende
 - Fem håndregler med retningsdiagrammer og direkte kobling til interaktive eksempler
 - Faradays induktionslov samt beregning af 1–6 magnetisk ukoblede induktanser i serie og parallel
 - Wheatstonebro med dynamiske midtpunktsspændinger, grenstrømme, nuldetektor og beregning af en valgfri ukendt modstand ved balance
-- Ledningsmodstand som funktion af materiale, længde, tværsnit og temperatur samt spændingsfald, effekttab og temperatur bestemt ud fra modstandsmåling
+- Ledningsmodstand som funktion af materiale, længde, tværsnit og temperatur samt spændingsfald, effekttab, ledningsevne, konduktans, strømtæthed og temperatur bestemt ud fra modstandsmåling
 - Elektriske felter med dynamiske feltlinjer, potentiale omkring en punktladning, Coulombkraft, parallelle plader og elektrostatisk skærmning
 - Galvaniske celler med redoxreaktioner, elektron- og strømretning, belastet celle, indre tab samt batterier i serie og parallel
+- Praktisk BESS-oversigt med batteriracks, BMS, DC-beskyttelse, PCS, transformer, nettilslutning, EMS/SCADA, sikkerhedssystemer og interaktiv opladning/afladning
+- Matematikfane med første- og andengradsligninger, to ligninger med to ubekendte, potenser, rødder, logaritmer, retvinklede og vilkårlige trekanter samt elektriske enheder og energi
 - Kondensatorfane med RC-opladning/afladning, tidskonstant, ladning, energi og interaktive tidskurver
 - Beskrivende spolefane om selvinduktion og modelektromotorisk kraft ved vekselstrøm, med reaktans, impedans og sammenligning af strøm med/uden selvinduktion
 - Tidsskyder, afspilning og mellemregninger fra 0 til 5 tidskonstanter i kondensatorfanen
@@ -52,7 +54,7 @@ python -m http.server 8000
 ## Publicér med GitHub Pages
 
 1. Opret et nyt GitHub-repository.
-2. Upload `index.html`, `transients.js`, `coil.js`, `transients.css`, `measurement.js`, `measurement.css`, `magnetism.js`, `magnetism.css`, `resistance-tools.js`, `resistance-tools.css`, `electric-fields.js`, `electric-fields.css`, `galvanic-cell.js`, `galvanic-cell.css` og `README.md` til repository-roden.
+2. Upload `index.html`, `transients.js`, `coil.js`, `transients.css`, `measurement.js`, `measurement.css`, `magnetism.js`, `magnetism.css`, `resistance-tools.js`, `resistance-tools.css`, `electric-fields.js`, `electric-fields.css`, `galvanic-cell.js`, `galvanic-cell.css`, `math-tools.js`, `math-tools.css` og `README.md` til repository-roden.
 3. Gå til **Settings → Pages**.
 4. Vælg **Deploy from a branch**, branch `main` og mappen `/ (root)`.
 5. Gem. GitHub viser derefter sidens offentlige adresse.
