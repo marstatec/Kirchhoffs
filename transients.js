@@ -27,7 +27,7 @@
   for (const [kind,spec] of Object.entries(specs)) {
     const section = document.createElement('section');
     section.id = `${kind}-view`; section.className = 'topic-page transient-page'; section.hidden = true;
-    section.innerHTML = `<div class="topic-hero"><span class="eyebrow">${spec.number} · ${kind === 'capacitor' ? 'Kondensator · RC' : 'Spole · RL'}</span><h2>${spec.title}</h2><p>${spec.subtitle}</p></div>
+    section.innerHTML = `<div class="topic-hero"><span class="eyebrow">${spec.number}  |  ${kind === 'capacitor' ? 'Kondensator  |  RC' : 'Spole  |  RL'}</span><h2>${spec.title}</h2><p>${spec.subtitle}</p></div>
       <div class="learn-grid">
         <article class="learn-card"><h3>Inddata</h3>
           <div class="transient-mode" role="group" aria-label="Forløb">${['up','down'].map(mode=>`<button type="button" data-mode="${mode}" aria-pressed="${mode==='up'}">${spec[mode]}</button>`).join('')}</div>
@@ -80,7 +80,7 @@
     for(const suffix of ['metrics','circuit','voltage-plot','current-plot','working','table','formulas','explanation','time','voltage-legend'])$(`${kind}-${suffix}`).replaceChildren();
     $(`${kind}-initial`).textContent=cap?(up?'Start: uC(0) = 0 V. En afladet kondensator tilsluttes U gennem R.':'Start: uC(0) = U. Kilden kobles fra, og kondensatoren aflades gennem R i en lukket kreds.'):(up?'Start: i(0) = 0 A. En ideel spole tilsluttes U gennem R. R omfatter også en eventuel viklingsmodstand.':'Start: i(0) = U/R. Kilden kobles fra efter stationær drift. Spolen og R forbliver i en lukket afladningskreds.');
     if(!valid)return;
-    $(`${kind}-time`).textContent=`t = ${quantity(s.time,'s')} = ${format(k)} τ · Afspilning: 2 s pr. τ`;
+    $(`${kind}-time`).textContent=`t = ${quantity(s.time,'s')} = ${format(k)} τ  |  Afspilning: 2 s pr. τ`;
     const metrics=[['Tidskonstant τ',quantity(s.tau,'s')],[`Spænding u${spec.symbol}`,quantity(s.voltage,'V')],['Strøm i',quantity(s.current,'A')],['Lagret energi W',quantity(s.energy,'J')]];
     $(`${kind}-metrics`).innerHTML=metrics.map(([name,value])=>`<div class="metric"><small>${name}</small><strong>${value}</strong></div>`).join('');
     circuit(kind,U,R,component,s,up);
@@ -104,7 +104,7 @@
     let drawing='';
     for(let t=0;t<=5;t++)drawing+=`<path class="plot-grid" d="M${x(t)} ${top}V${bottom}"/><text x="${x(t)}" y="270" text-anchor="middle">${t}τ</text>`;
     for(let j=0;j<=4;j++){const v=min+range*j/4;drawing+=`<path class="plot-grid" d="M${left} ${y(v)}H${right}"/><text x="${left-9}" y="${y(v)+4}" text-anchor="end">${quantity(v,unit)}</text>`;}
-    drawing+=`<path class="plot-axis" d="M${left} ${top}V${bottom}M${left} ${y(0)}H${right}"/><text x="${right}" y="294" text-anchor="end">Tid · τ = ${quantity(at(1).tau,'s')}</text>`;
+    drawing+=`<path class="plot-axis" d="M${left} ${top}V${bottom}M${left} ${y(0)}H${right}"/><text x="${right}" y="294" text-anchor="end">Tid  |  τ = ${quantity(at(1).tau,'s')}</text>`;
     curves.forEach(c=>{const points=Array.from({length:201},(_,i)=>`${i?'L':'M'}${x(i/40).toFixed(2)} ${y(c.get(at(i/40))).toFixed(2)}`).join(' ');drawing+=`<path d="${points}" fill="none" stroke="${c.color}" stroke-width="2.8"/>`;});
     drawing+=`<path class="plot-cursor" d="M${x(k)} ${top}V${bottom}"/>`;
     curves.forEach(c=>drawing+=`<circle cx="${x(k)}" cy="${y(c.get(at(k)))}" r="4" fill="${c.color}"/>`);
