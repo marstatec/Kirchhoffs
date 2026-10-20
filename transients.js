@@ -36,7 +36,7 @@
         </article>
         <article class="learn-card"><h3 id="${kind}-circuit-title">Kredsløbet ved den valgte tid</h3><svg id="${kind}-circuit" class="learn-svg transient-circuit" viewBox="0 0 600 270" role="img" aria-labelledby="${kind}-circuit-title"></svg><div id="${kind}-metrics" class="metric-strip transient-metrics"></div></article>
         <article class="learn-card full"><h3>Følg forløbet i tiden</h3><div class="transient-timebar"><button type="button" id="${kind}-play" class="secondary">▶ Afspil</button><output id="${kind}-time"></output></div>
-          <div class="field"><label for="${kind}-time-slider">Tid fra 0 til 5 tidskonstanter (τ)</label><input id="${kind}-time-slider" type="range" min="0" max="5" step="0.01" value="1"></div>
+          <div class="field"><label for="${kind}-time-slider">Tid fra 0 til 5 tidskonstanter τ</label><input id="${kind}-time-slider" type="number" min="0" max="5" step="0.01" value="1"></div>
           <div class="transient-chart-grid"><div><div id="${kind}-voltage-legend" class="transient-legend"></div><svg id="${kind}-voltage-plot" class="transient-plot" viewBox="0 0 520 300" role="img" aria-label="Spænding som funktion af tiden"></svg></div><div><div class="transient-legend"><span style="--curve:var(--orange)">Strøm i</span></div><svg id="${kind}-current-plot" class="transient-plot" viewBox="0 0 520 300" role="img" aria-label="Strøm som funktion af tiden"></svg></div></div>
           <p id="${kind}-explanation" class="lesson-note"></p>
         </article>

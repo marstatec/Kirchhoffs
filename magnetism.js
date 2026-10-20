@@ -7,7 +7,7 @@
   let s=initial();
   const topics={wire:'Felt om en leder',coil:'Felt om en spole',materials:'Jern og magneter',force:'Kraft på en leder',induction:'Induktion',inductors:'Induktanser',rules:'Håndregler'};
   const page=document.createElement('section');page.id='magnetism-view';page.className='topic-page magnet-page';page.hidden=true;
-  const slider=(key,label,min,max,step,unit)=>`<div class="field"><label for="mag-${key}">${label} <output id="mag-${key}-value"></output></label><input id="mag-${key}" type="range" min="${min}" max="${max}" step="${step}" data-key="${key}" data-unit="${unit}"></div>`;
+  const slider=(key,label,min,max,step,unit)=>`<div class="field"><label for="mag-${key}">${label}${unit?' ('+unit+')':''}</label><input id="mag-${key}" type="number" min="${min}" max="${max}" step="${step}" data-key="${key}"></div>`;
   const numeric=(key,label,min,max,step,unit)=>`<div class="field"><label for="mag-${key}">${label}${unit?' ('+unit+')':''}</label><input id="mag-${key}" type="number" min="${min}" max="${max}" step="${step}" data-key="${key}"></div>`;
   const svg=(id,title)=>`<svg id="mag-${id}" viewBox="0 0 600 340" class="mag-figure" role="img" aria-label="${title}"></svg>`;
   const button=(action,label)=>`<button type="button" class="secondary" data-action="${action}">${label}</button>`;
@@ -122,8 +122,7 @@
     $('mag-rule-link').querySelector('button').onclick=()=>{s.tab=rule.target;render();};
     if(s.rule==='corkscrew')$('mag-rule-reverse').onclick=()=>{s.ruleInward=!s.ruleInward;handRules();$('mag-rule-reverse').focus();};
   }
-  function render(){$('mag-permanent-card').hidden=s.tab!=='materials';page.querySelectorAll('[data-mag-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.magTab===s.tab)));page.querySelectorAll('[data-mag-panel]').forEach(p=>p.hidden=p.dataset.magPanel!==s.tab);page.querySelectorAll('input[type=range][data-key]').forEach(input=>{input.value=s[input.dataset.key];$('mag-'+input.dataset.key+'-value').textContent=`${num(s[input.dataset.key])} ${input.dataset.unit}`;});
-    for(const key of ['farN','phiStart','phiEnd','dt'])if(document.activeElement!==$('mag-'+key))$('mag-'+key).value=Number.isFinite(s[key])?s[key]:'';
+  function render(){$('mag-permanent-card').hidden=s.tab!=='materials';page.querySelectorAll('[data-mag-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.magTab===s.tab)));page.querySelectorAll('[data-mag-panel]').forEach(p=>p.hidden=p.dataset.magPanel!==s.tab);page.querySelectorAll('input[data-key]').forEach(input=>{if(document.activeElement!==input)input.value=Number.isFinite(s[input.dataset.key])?s[input.dataset.key]:'';});
     $('mag-material').value=s.material;$('mag-other').value=s.other;$('mag-parallel').value=s.parallel?'yes':'no';$('mag-connection').value=s.connection;$('mag-count').value=s.inductors.length;$('mag-rule').value=s.rule;
     wire();coil();materials();force();induction();inductors();handRules();
   }
