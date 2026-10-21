@@ -4,7 +4,7 @@
   const $=id=>document.getElementById(id),k=8.9875517923e9;
   const fmt=(n,d=4)=>Number.isFinite(n)?n.toLocaleString('da-DK',{maximumSignificantDigits:d}):'—';
   const sci=(n,unit)=>{if(!Number.isFinite(n))return'—';const a=Math.abs(n);if(a===0)return`0 ${unit}`;if(a>=1e6)return`${fmt(n/1e6)} M${unit}`;if(a>=1e3)return`${fmt(n/1e3)} k${unit}`;if(a<1e-6)return`${fmt(n*1e9)} n${unit}`;if(a<1e-3)return`${fmt(n*1e6)} µ${unit}`;if(a<1)return`${fmt(n*1e3)} m${unit}`;return`${fmt(n)} ${unit}`};
-  const slider=(id,label,min,max,step,value,unit)=>`<div class="field"><label for="${id}">${label}${unit?' ('+unit+')':''}</label><input id="${id}" type="number" min="${min}" max="${max}" step="${step}" value="${value}"></div>`;
+  const slider=(id,label,min,max,step,value,unit)=>`<div class="field"><label for="${id}">${label}${unit?' ('+unit+')':''}</label><input id="${id}" type="number" step="${step}" value="${value}"></div>`;
   const arrow=(x1,y1,x2,y2,color='var(--blue)',width=3)=>{const a=Math.atan2(y2-y1,x2-x1),s=9;return `<path d="M${x1} ${y1}L${x2} ${y2}" fill="none" stroke="${color}" stroke-width="${width}"/><path d="M${x2} ${y2}L${x2-s*Math.cos(a)+4*Math.sin(a)} ${y2-s*Math.sin(a)-4*Math.cos(a)}L${x2-s*Math.cos(a)-4*Math.sin(a)} ${y2-s*Math.sin(a)+4*Math.cos(a)}Z" fill="${color}"/>`};
   const text=(x,y,t,cls='',anchor='middle')=>`<text x="${x}" y="${y}" text-anchor="${anchor}" class="${cls}">${t}</text>`;
   const result=(label,value)=>`<div class="ef-result"><small>${label}</small><strong>${value}</strong></div>`;

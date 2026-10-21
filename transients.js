@@ -22,7 +22,7 @@
     return {tau, time:k*tau, voltage, current, energy, emf:cap ? 0 : -voltage, resistor:R*current};
   }
   function field(id, label, value) {
-    return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="number" min="0.000001" step="any" value="${value}" required></div>`;
+    return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="number" step="any" value="${value}" required></div>`;
   }
   for (const [kind,spec] of Object.entries(specs)) {
     const section = document.createElement('section');
@@ -32,11 +32,11 @@
         <article class="learn-card"><h3>Inddata</h3>
           <div class="transient-mode" role="group" aria-label="Forløb">${['up','down'].map(mode=>`<button type="button" data-mode="${mode}" aria-pressed="${mode==='up'}">${spec[mode]}</button>`).join('')}</div>
           <div class="transient-fields">${field(`${kind}-u`,'Forsyningsspænding U (V)',24)}${field(`${kind}-r`,'Samlet seriemodstand R (Ω)',spec.resistance)}${field(`${kind}-component`,spec.name,spec.value)}</div>
-          <p id="${kind}-initial" class="lesson-note"></p><p id="${kind}-error" class="error" role="alert" hidden>Indtast positive, endelige værdier for U, R og ${spec.symbol}.</p>
+          <p id="${kind}-initial" class="lesson-note"></p><p id="${kind}-error" class="error" role="alert" hidden>Indtast en endelig spænding samt positive, endelige værdier for R og ${spec.symbol}.</p>
         </article>
         <article class="learn-card"><h3 id="${kind}-circuit-title">Kredsløbet ved den valgte tid</h3><svg id="${kind}-circuit" class="learn-svg transient-circuit" viewBox="0 0 600 270" role="img" aria-labelledby="${kind}-circuit-title"></svg><div id="${kind}-metrics" class="metric-strip transient-metrics"></div></article>
         <article class="learn-card full"><h3>Følg forløbet i tiden</h3><div class="transient-timebar"><button type="button" id="${kind}-play" class="secondary">▶ Afspil</button><output id="${kind}-time"></output></div>
-          <div class="field"><label for="${kind}-time-slider">Tid fra 0 til 5 tidskonstanter τ</label><input id="${kind}-time-slider" type="number" min="0" max="5" step="0.01" value="1"></div>
+          <div class="field"><label for="${kind}-time-slider">Tid angivet i tidskonstanter τ</label><input id="${kind}-time-slider" type="number" step="0.01" value="1"></div>
           <div class="transient-chart-grid"><div><div id="${kind}-voltage-legend" class="transient-legend"></div><svg id="${kind}-voltage-plot" class="transient-plot" viewBox="0 0 520 300" role="img" aria-label="Spænding som funktion af tiden"></svg></div><div><div class="transient-legend"><span style="--curve:var(--orange)">Strøm i</span></div><svg id="${kind}-current-plot" class="transient-plot" viewBox="0 0 520 300" role="img" aria-label="Strøm som funktion af tiden"></svg></div></div>
           <p id="${kind}-explanation" class="lesson-note"></p>
         </article>
@@ -75,7 +75,7 @@
     const spec=specs[kind],cap=kind==='capacitor', mode=states[kind].mode,up=mode==='up';
     const U=$(`${kind}-u`).valueAsNumber,R=$(`${kind}-r`).valueAsNumber,raw=$(`${kind}-component`).valueAsNumber,component=raw*(cap?1e-6:1e-3),k=+$(`${kind}-time-slider`).value;
     const s=sample(kind,U,R,component,mode,k);
-    const valid=[U,R,component].every(v=>Number.isFinite(v)&&v>0)&&Object.values(s).every(Number.isFinite)&&s.tau>0;
+    const valid=Number.isFinite(U)&&Number.isFinite(R)&&R>0&&Number.isFinite(component)&&component>0&&Object.values(s).every(Number.isFinite)&&s.tau>0;
     $(`${kind}-error`).hidden=valid;$(`${kind}-play`).disabled=!valid;
     for(const suffix of ['metrics','circuit','voltage-plot','current-plot','working','table','formulas','explanation','time','voltage-legend'])$(`${kind}-${suffix}`).replaceChildren();
     $(`${kind}-initial`).textContent=cap?(up?'Start: uC(0) = 0 V. En afladet kondensator tilsluttes U gennem R.':'Start: uC(0) = U. Kilden kobles fra, og kondensatoren aflades gennem R i en lukket kreds.'):(up?'Start: i(0) = 0 A. En ideel spole tilsluttes U gennem R. R omfatter også en eventuel viklingsmodstand.':'Start: i(0) = U/R. Kilden kobles fra efter stationær drift. Spolen og R forbliver i en lukket afladningskreds.');

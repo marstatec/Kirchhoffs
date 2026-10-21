@@ -22,7 +22,7 @@
       </article>
       <article class="learn-card"><h3>Regn på spolen</h3><p class="lesson-note">Startværdierne svarer til eksemplet: 230 V, 50 Hz, 1 H og 100 Ω. U og I er effektivværdier (RMS).</p>
         <div class="transient-fields">
-          ${[['u','Spænding U (V RMS)'],['f','Frekvens f (Hz)'],['l','Induktans L (H)'],['r','Viklingsmodstand R (Ω)']].map(([id,label])=>`<div class="field"><label for="coil-${id}">${label}</label><input id="coil-${id}" type="number" min="${id==='u'||id==='r'?'0.000001':'0'}" step="any" value="${defaults[id]}" required></div>`).join('')}
+          ${[['u','Spænding U (V RMS)'],['f','Frekvens f (Hz)'],['l','Induktans L (H)'],['r','Viklingsmodstand R (Ω)']].map(([id,label])=>`<div class="field"><label for="coil-${id}">${label}</label><input id="coil-${id}" type="number" step="any" value="${defaults[id]}" required></div>`).join('')}
         </div>
         <p class="lesson-note">R er modstanden i spolens tråd. X<sub>L</sub> beskriver virkningen af selvinduktionen ved den valgte frekvens.</p>
         <p id="coil-error" class="error" role="alert" hidden>U og R skal være større end 0. f og L skal være 0 eller større. Alle felter skal indeholde endelige tal.</p>
